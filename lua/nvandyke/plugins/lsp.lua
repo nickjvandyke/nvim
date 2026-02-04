@@ -40,6 +40,30 @@ return {
         cmd = { 'vscode-eslint-language-server', '--stdio', '--cache' },
       })
 
+      vim.lsp.config('emmylua_ls', {
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+              requirePattern = {
+                'lua/?.lua',
+                'lua/?/init.lua',
+                '?/lua/?.lua',
+                '?/lua/?/init.lua',
+              },
+            },
+            workspace = {
+              library = {
+                '$VIMRUNTIME',
+                '$LLS_Addons/luvit',
+                '$HOME/.local/share/nvim/lazy',
+              },
+              ignoreGlobs = { '**/*_spec.lua' },
+            },
+          },
+        },
+      })
+
       vim.lsp.enable {
         'lua_ls',
         -- 'emmylua_ls',
