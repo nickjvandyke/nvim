@@ -21,7 +21,7 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down'
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up', silent = true })
 
 -- This is almost always my preferred behavior
--- vim.keymap.set('x', 'p', '"_dP', { desc = 'Paste over selection without yanking' })
+vim.keymap.set('x', 'p', '"_dP', { desc = 'Paste over selection without yanking' })
 
 vim.keymap.set('n', 'y\\', function()
   -- -n means do not append newline
@@ -33,7 +33,7 @@ end, { desc = 'Copy relative filepath to clipboard' })
 -- vim.keymap.set('n', '<leader>qf', '<cmd>copen<cr>', { desc = 'QuickFix list' })
 -- vim.keymap.set('n', '<leader>ql', '<cmd>lopen<cr>', { desc = 'Location list' })
 
-vim.keymap.set('n', 'grN', [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = 'Replace word under cursor' })
+vim.keymap.set('n', 'grN', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/g<Left><Left>]], { desc = 'Replace word under cursor' })
 
 vim.keymap.set('n', 'gG', 'gg<S-v>G', { desc = 'Select all' })
 

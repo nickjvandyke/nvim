@@ -1,7 +1,6 @@
 return {
   'windwp/nvim-ts-autotag',
-  enabled = false,
-  event = 'BufReadPost',
+  event = 'InsertEnter',
   opts = {
     opts = {
       enable_close = true, -- Auto close tags

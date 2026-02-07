@@ -4,7 +4,7 @@ return {
   opts = {},
   keys = {
     {
-      '<leader>ug',
+      '<leader>go',
       function()
         require('mini.diff').toggle_overlay(0)
       end,

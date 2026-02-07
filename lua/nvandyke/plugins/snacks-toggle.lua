@@ -23,7 +23,7 @@ return {
         Snacks.toggle.inlay_hints():map '<leader>uh'
         Snacks.toggle.indent():map '<leader>uG'
         Snacks.toggle.dim():map '<leader>ud'
-        Snacks.toggle.scroll():map '<leader>us'
+        Snacks.toggle.scroll():map '<leader>uS'
         Snacks.toggle.zen():map '<leader>uz'
         Snacks.toggle
           .new({
@@ -36,7 +36,7 @@ return {
               vim.g.disable_autosave = not state
             end,
           })
-          :map '<leader>ua'
+          :map '<leader>us'
         Snacks.toggle
           .new({
             id = 'autoformat',

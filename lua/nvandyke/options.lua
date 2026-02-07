@@ -95,7 +95,7 @@ vim.opt.autoread = true
 
 vim.opt.cmdheight = 0
 
-vim.opt.wrap = true
+vim.opt.wrap = false
 
 vim.opt.termguicolors = true
 vim.opt.guicursor:append 't:ver25'

@@ -24,6 +24,5 @@ end, {
     end,
   },
   'folke/tokyonight.nvim',
-  'catppuccin/nvim',
   'webhooked/kanso.nvim',
 })

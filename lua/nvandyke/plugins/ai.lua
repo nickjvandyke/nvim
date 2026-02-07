@@ -30,7 +30,9 @@ return {
           picker = {
             -- enabled = false
           },
-          terminal = {},
+          terminal = {
+            -- enabled = false,
+          },
         },
       },
     },
@@ -56,12 +58,12 @@ return {
           },
         },
         provider = {
-          -- enabled = false,
+          enabled = 'snacks',
           snacks = {
             auto_insert = true,
-            -- win = {
-            --   position = 'left'
-            -- }
+            win = {
+              -- position = 'left'
+            },
           },
         },
       }
@@ -78,7 +80,7 @@ return {
 
       -- Recommended/example keymaps.
       vim.keymap.set({ 'n', 'x' }, '<C-a>', function()
-        require('opencode').ask(nil, { submit = true })
+        require('opencode').ask('@this: ', { submit = true })
       end, { desc = 'Ask opencode' })
       vim.keymap.set({ 'n', 'x' }, '<C-x>', function()
         require('opencode').select()
@@ -87,10 +89,10 @@ return {
       vim.keymap.set({ 'n', 't' }, '<C-.>', function()
         require('opencode').toggle()
       end, { desc = 'Toggle opencode' })
-      vim.keymap.set('n', '<S-C-u>', function()
+      vim.keymap.set({ 'n', 't' }, '<S-C-u>', function()
         require('opencode').command 'session.half.page.up'
-      end, { desc = 'opencode half page up' })
-      vim.keymap.set('n', '<S-C-d>', function()
+      end, { desc = 'opencode half page up', buffer = true })
+      vim.keymap.set({ 'n', 't' }, '<S-C-d>', function()
         require('opencode').command 'session.half.page.down'
       end, { desc = 'opencode half page down' })
 

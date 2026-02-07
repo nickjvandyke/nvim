@@ -4,7 +4,7 @@ return {
     -- Indent/scope guide
     indent = {
       indent = {
-        enabled = false,
+        only_scope = true,
       },
     },
     -- Scope-based movements and textobjects

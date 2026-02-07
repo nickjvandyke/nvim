@@ -1,10 +1,8 @@
--- FIX: `OA` on up arrow press,
--- and ignoring first keypress after normal -> terminal mode
 return {
   'folke/snacks.nvim',
+  ---@type snacks.terminal.Opts
   opts = {
     terminal = {
-      enabled = true,
       -- auto_insert = false,
       win = {
         wo = {
@@ -12,6 +10,19 @@ return {
           -- winhighlight = 'Normal:Normal',
         },
         border = vim.o.winborder,
+      },
+      keys = {
+        -- default, but don't hide self
+        gf = function()
+          local f = vim.fn.findfile(vim.fn.expand '<cfile>', '**')
+          if f == '' then
+            Snacks.notify.warn 'No file under cursor'
+          else
+            vim.schedule(function()
+              vim.cmd('e ' .. f)
+            end)
+          end
+        end,
       },
     },
   },
@@ -46,7 +57,7 @@ return {
         Snacks.terminal.open()
       end,
       desc = 'Open new terminal',
-      mode = 'n',
+      mode = { 'n', 't' },
     },
   },
 }

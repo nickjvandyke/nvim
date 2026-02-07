@@ -129,8 +129,8 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {
-          filetype,
           filename,
+          filetype,
         },
         lualine_x = {},
         lualine_y = {},

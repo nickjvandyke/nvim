@@ -32,6 +32,12 @@ return {
         },
       })
 
+      -- vim.lsp.config('tsgo', {
+      --   settings = {
+      --     cmd = { 'tsgo', '--singleThreaded' },
+      --   },
+      -- })
+
       -- Add --cache flag
       -- TODO: Verify it works. I don't see a .eslintcache file being created.
       -- WARNING: `eslint` needs to exist in `node_modules` or globally installed.
@@ -128,7 +134,26 @@ return {
         float = {
           source = true,
         },
+        jump = {
+          -- severity = { min = vim.diagnostic.severity.WARN },
+        },
       }
+    end,
+  },
+  {
+    'rachartier/tiny-inline-diagnostic.nvim',
+    event = 'VeryLazy',
+    priority = 1000,
+    config = function()
+      require('tiny-inline-diagnostic').setup {
+        options = {
+          use_icons_from_diagnostic = true,
+          show_source = {
+            enabled = true,
+          },
+        },
+      }
+      vim.diagnostic.config { virtual_text = false, virtual_lines = false } -- Disable Neovim's default virtual text diagnostics
     end,
   },
   {

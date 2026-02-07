@@ -61,7 +61,7 @@ require('lazy').setup({
   },
 })
 
-vim.cmd 'colorscheme rose-pine-moon'
+vim.cmd 'colorscheme everforest'
 
 -- -- ❌ Inefficient, unreliable
 -- require('your-plugin').setup {}
