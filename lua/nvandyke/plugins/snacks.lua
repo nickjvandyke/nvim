@@ -5,9 +5,7 @@ return {
   ---@type snacks.Config
   opts = {
     scroll = { enabled = true },
-    input = {
-      enabled = true,
-    },
+    input = {},
     bigfile = { enabled = true },
     -- WARNING: Breaks and issues tons of warnings in VSCode Neovim
     words = { enabled = true },

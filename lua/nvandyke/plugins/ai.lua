@@ -20,19 +20,31 @@ return {
     'NickvanDyke/opencode.nvim',
     dir = '~/dev/opencode.nvim',
     dependencies = {
-      ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
       {
+        -- `snacks.nvim` integration is recommended, but optional.
+        ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
         'folke/snacks.nvim',
+        optional = true,
         opts = {
-          input = {
-            -- enabled = false,
-          },
+          -- Enhances `ask()`.
+          input = {},
+          -- Enhances `select()`.
           picker = {
-            -- enabled = false
+            actions = {
+              opencode_send = function(...)
+                return require('opencode').snacks_picker_send(...)
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
+                },
+              },
+            },
           },
-          terminal = {
-            -- enabled = false,
-          },
+          -- Enables the `snacks` provider.
+          terminal = {},
         },
       },
     },
@@ -91,7 +103,7 @@ return {
       end, { desc = 'Toggle opencode' })
       vim.keymap.set({ 'n', 't' }, '<S-C-u>', function()
         require('opencode').command 'session.half.page.up'
-      end, { desc = 'opencode half page up', buffer = true })
+      end, { desc = 'opencode half page up' })
       vim.keymap.set({ 'n', 't' }, '<S-C-d>', function()
         require('opencode').command 'session.half.page.down'
       end, { desc = 'opencode half page down' })

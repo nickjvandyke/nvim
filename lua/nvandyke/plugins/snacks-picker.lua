@@ -3,9 +3,9 @@ return {
   ---@type snacks.Config
   opts = {
     gh = {},
-    -- explorer = {
-    --   replace_netrw = true,
-    -- },
+    explorer = {
+      replace_netrw = true,
+    },
     picker = {
       ui_select = true,
       sources = {
@@ -60,7 +60,7 @@ return {
     { "<leader>/", function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-    { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+    { "<leader>e", function() Snacks.explorer.reveal() end, desc = "File Explorer" },
     -- Find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fc", function() Snacks.picker.files { cwd = vim.fn.stdpath('config') .. '/..', hidden = true } end, desc = "Find Config File" },
