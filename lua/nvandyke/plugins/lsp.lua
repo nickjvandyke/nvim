@@ -46,6 +46,55 @@ return {
         cmd = { 'vscode-eslint-language-server', '--stdio', '--cache' },
       })
 
+      -- I suddenly had to do this manually?
+      -- I thought lazydev essentially does this.
+      -- https://github.com/neovim/nvim-lspconfig/blob/44acfe887d4056f704ccc4f17513ed41c9e2b2e6/lsp/lua_ls.lua#L4
+      -- HACK: https://github.com/folke/lazydev.nvim/issues/136
+      -- Downgrading lua_ls didn't fix for me.
+      vim.lsp.config('lua_ls', {
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+              return
+            end
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+            runtime = {
+              -- Tell the language server which version of Lua you're using (most
+              -- likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+              -- Tell the language server how to find Lua modules same way as Neovim
+              -- (see `:h lua-module-load`)
+              path = {
+                'lua/?.lua',
+                'lua/?/init.lua',
+              },
+            },
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                -- Depending on the usage, you might want to add additional paths
+                -- here.
+                '${3rd}/luv/library',
+                -- '${3rd}/busted/library',
+              },
+              -- Or pull in all of 'runtimepath'.
+              -- NOTE: this is a lot slower and will cause issues when working on
+              -- your own configuration.
+              -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+              -- library = vim.api.nvim_get_runtime_file('', true),
+            },
+          })
+        end,
+        settings = {
+          Lua = {},
+        },
+      })
+
       vim.lsp.config('emmylua_ls', {
         settings = {
           Lua = {
@@ -54,8 +103,6 @@ return {
               requirePattern = {
                 'lua/?.lua',
                 'lua/?/init.lua',
-                '?/lua/?.lua',
-                '?/lua/?/init.lua',
               },
             },
             workspace = {
@@ -163,7 +210,6 @@ return {
   },
   {
     'folke/lazydev.nvim',
-    -- enabled = false, -- Doesn't work with emmylua_ls I think
     ft = 'lua',
     dependencies = {
       'Bilal2453/luvit-meta',
@@ -171,7 +217,7 @@ return {
     opts = {
       library = {
         -- Load luvit types when the `vim.uv` word is found
-        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
         { path = 'snacks.nvim', words = { 'Snacks' } },
         { path = 'lazy.nvim', words = { 'LazyVim' } },
       },
