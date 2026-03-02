@@ -18,6 +18,25 @@ return {
       padding = { left = 0, right = 1 },
     }
 
+    local marks = {
+      function()
+        local global_marks = vim.fn.getmarklist()
+        local local_marks = vim.fn.getmarklist(vim.api.nvim_get_current_buf())
+        local marks = {}
+        for _, mark in ipairs(global_marks) do
+          if mark.mark:match '%a' then
+            table.insert(marks, mark.mark)
+          end
+        end
+        for _, mark in ipairs(local_marks) do
+          if mark.mark:match '%a' then
+            table.insert(marks, mark.mark)
+          end
+        end
+        return table.concat(marks, ' ')
+      end,
+    }
+
     local cwd = {
       function()
         local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
@@ -146,7 +165,8 @@ return {
           diff,
         },
         lualine_c = {
-          { 'grapple', padding = { left = 1 } },
+          marks,
+          -- { 'grapple', padding = { left = 1 } },
           filename,
           filetype,
           -- progress,
