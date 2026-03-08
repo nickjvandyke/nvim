@@ -11,6 +11,7 @@ return {
       sources = {
         explorer = {
           hidden = true,
+          auto_close = true,
           -- layout = { layout = { position = 'right' } },
         },
       },
@@ -93,7 +94,19 @@ return {
     { '<leader>sk', function() Snacks.picker.keymaps() end, desc = 'Keymaps' },
     { '<leader>sl', function() Snacks.picker.loclist() end, desc = 'Location List' },
     { '<leader>sM', function() Snacks.picker.man() end, desc = 'Man Pages' },
-    { '<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks' },
+    { '<leader>sm', function() Snacks.picker.marks({
+      ["local"] = false,
+      filter = {
+        -- TODO: No effect?
+        -- Same for when passing `filter.filter` (which is never called).
+        transform = function(picker, filter) ---@param filter snacks.picker.Filter
+          filter.opts.filter = function(item) ---@param item snacks.picker.Item
+            return item.text:match('%a') -- only show named marks
+          end
+          return true
+        end
+      },
+    }) end, desc = 'Marks' },
     { '<leader>sr', function() Snacks.picker.resume() end, desc = 'Resume' },
     { '<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List' },
     { '<leader>sC', function() Snacks.picker.colorschemes() end, desc = 'Colorschemes' },

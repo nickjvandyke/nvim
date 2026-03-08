@@ -4,6 +4,7 @@
 require 'nvandyke.options'
 require 'nvandyke.maps'
 require 'nvandyke.commands'
+require 'nvandyke.projects'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -61,7 +62,7 @@ require('lazy').setup({
   },
 })
 
-vim.cmd 'colorscheme everforest'
+vim.cmd 'colorscheme rose-pine-moon'
 
 -- -- ❌ Inefficient, unreliable
 -- require('your-plugin').setup {}

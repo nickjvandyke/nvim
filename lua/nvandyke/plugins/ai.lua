@@ -17,7 +17,8 @@ return {
     },
   },
   {
-    'NickvanDyke/opencode.nvim',
+    'nickjvandyke/opencode.nvim',
+    -- version = "*",
     dir = '~/dev/opencode.nvim',
     dependencies = {
       {
@@ -27,7 +28,9 @@ return {
         optional = true,
         opts = {
           -- Enhances `ask()`.
-          input = {},
+          input = {
+            -- enabled = false,
+          },
           -- Enhances `select()`.
           picker = {
             actions = {
@@ -49,11 +52,36 @@ return {
       },
     },
     config = function()
+      local cmd = 'opencode --port 54403'
+      ---@type snacks.terminal.Opts
+      local snacks_terminal_opts = {
+        win = {
+          position = 'right',
+          enter = false,
+          on_win = function(win)
+            -- Setup keymaps and cleanup for an arbitrary terminal
+            require('opencode.terminal').setup(win.win)
+          end,
+        },
+      }
       ---@type opencode.Opts
       vim.g.opencode_opts = {
-        -- port = 54403,
+        -- stylua: ignore
+        server = {
+          -- port = 54403,
+          start = false,
+          -- start = function()
+          --   require('snacks.terminal').open(cmd, snacks_terminal_opts)
+          -- end,
+          stop = function()
+            require('snacks.terminal').get(cmd, snacks_terminal_opts):close()
+          end,
+          toggle = function()
+            require('snacks.terminal').toggle(cmd, snacks_terminal_opts)
+          end,
+        },
         prompts = {
-          code_reviewer = { prompt = 'Review @buffer @code-reviewer', submit = true },
+          code_reviewer = { prompt = '@code-reviewer Review @buffer', submit = true },
         },
         ask = {
           -- snacks = {
@@ -64,18 +92,15 @@ return {
           -- prompt = 'meow',
           sections = {
             commands = {
-              -- ['meowwww'] = 'MEOW MEOW',
+              ['meowwww'] = 'MEOW MEOW',
               -- ['session.list'] = 'List Sessions',
             },
           },
         },
-        provider = {
-          enabled = 'snacks',
-          snacks = {
-            auto_insert = true,
-            win = {
-              -- position = 'left'
-            },
+        lsp = {
+          enabled = true,
+          hover = {
+            model = 'github-copilot/gpt-5-mini',
           },
         },
       }

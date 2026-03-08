@@ -71,6 +71,7 @@ return {
       },
     },
     cmdline = {
+      -- enabled = false,
       completion = {
         menu = {
           auto_show = function(ctx)
