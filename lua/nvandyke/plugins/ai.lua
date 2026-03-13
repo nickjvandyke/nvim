@@ -103,6 +103,9 @@ return {
             model = 'github-copilot/gpt-5-mini',
           },
         },
+        permissions = {
+          enabled = false,
+        },
       }
 
       -- Required for `opts.auto_reload`
