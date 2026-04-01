@@ -4,7 +4,10 @@ return {
     highlight = true,
   },
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      branch = 'main',
+    },
   },
   keys = {
     { mode = { 'n', 'v' }, '<C-j>', '<cmd>Treewalker Down<CR>', noremap = true, silent = true },

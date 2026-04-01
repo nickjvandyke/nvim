@@ -1,19 +1,14 @@
-return { -- Highlight, edit, and navigate code
+return {
   'nvim-treesitter/nvim-treesitter',
+  branch = 'main',
+  lazy = false,
   build = ':TSUpdate',
-  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-  event = 'BufReadPre',
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  opts = {
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = false,
-        node_incremental = '<Tab>',
-        node_decremental = '<S-Tab>',
-      },
-    },
-    ensure_installed = {
+  init = function()
+    -- TODO: Migrate Wanna to use .sql... don't think .psql is a legit thing
+    vim.treesitter.language.register('sql', 'psql')
+  end,
+  config = function(_, opts)
+    require('nvim-treesitter').install {
       'bash',
       'c',
       'diff',
@@ -33,23 +28,17 @@ return { -- Highlight, edit, and navigate code
       'sql',
       'regex',
       'blade',
-    },
-    -- Autoinstall languages that are not installed
-    auto_install = true,
-    highlight = {
-      enable = true,
-      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      --  If you are experiencing weird indenting issues, add the language to
-      --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-    matchup = { enable = true },
-  },
-  init = function()
-    -- TODO: Migrate Wanna to use .sql... don't think .psql is a legit thing
-    vim.treesitter.language.register('sql', 'psql')
+      'javascript',
+      'jsx',
+      'typescript',
+      'tsx',
+    }
 
-    vim.treesitter.language.register('sql', 'psql')
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function()
+        -- Errors for filetypes with no parser
+        pcall(vim.treesitter.start)
+      end,
+    })
   end,
 }
