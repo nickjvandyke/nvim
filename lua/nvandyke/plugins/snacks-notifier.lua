@@ -16,9 +16,9 @@ return {
   end,
   keys = {
     {
-      '<leader>n',
+      '<leader>sn',
       function()
-        Snacks.notifier.show_history()
+        Snacks.picker.notifications()
       end,
       desc = 'Notifications',
     },

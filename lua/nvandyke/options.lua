@@ -102,9 +102,16 @@ vim.opt.guicursor:append 't:ver25'
 
 vim.opt.foldmethod = 'expr' -- Define folds using an expression
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' -- Use Treesitter for folding
-vim.opt.foldlevel = 0
+vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldtext = '' -- Syntax highlight first line of fold
+-- vim.api.nvim_create_autocmd('BufNew', {
+--   pattern = '*',
+--   callback = function()
+--     -- Move cursor back and forth to open whatever fold it's in, if any
+--     vim.api.nvim_feedkeys('hl', 'n', false)
+--   end,
+-- })
 
 vim.o.laststatus = 0
 

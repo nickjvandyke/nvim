@@ -6,6 +6,8 @@ return {
     'xzbdmw/colorful-menu.nvim',
     'rafamadriz/friendly-snippets',
   },
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
   opts = {
     keymap = {
       preset = 'default',
@@ -27,7 +29,9 @@ return {
       },
       providers = {
         snippets = {},
-        lsp = {},
+        lsp = {
+          fallbacks = {},
+        },
         path = {},
         buffer = {
           -- min_keyword_length = 3,
@@ -44,7 +48,7 @@ return {
       },
       menu = {
         auto_show_delay_ms = 100,
-        border = 'rounded',
+        border = 'none',
         draw = {
           treesitter = { 'lsp' },
           columns = { { 'kind_icon' }, { 'label', gap = 1 }, { 'label_description' }, { 'source_name' } },

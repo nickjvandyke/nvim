@@ -22,6 +22,7 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up', 
 
 -- This is almost always my preferred behavior
 vim.keymap.set('x', 'p', '"_dP', { desc = 'Paste over selection without yanking' })
+vim.keymap.set('n', '<C-p>', 'viw"_dP', { desc = 'Paste over word without yanking' })
 
 vim.keymap.set('n', 'y\\', function()
   -- -n means do not append newline

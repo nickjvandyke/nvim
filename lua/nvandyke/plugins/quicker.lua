@@ -13,7 +13,7 @@ return {
     },
     highlight = {
       -- Better highlighting
-      load_buffers = true,
+      -- load_buffers = true,
     },
     follow = {
       enable = true,

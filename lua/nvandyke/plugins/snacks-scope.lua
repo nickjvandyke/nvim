@@ -3,6 +3,9 @@ return {
   opts = {
     -- Indent/scope guide
     indent = {
+      animate = {
+        enabled = false,
+      },
       indent = {
         only_scope = true,
       },

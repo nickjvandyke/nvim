@@ -15,6 +15,7 @@ end, {
   },
   {
     'rose-pine/neovim',
+    name = 'rose-pine',
     config = function()
       require('rose-pine').setup {
         styles = {
@@ -25,4 +26,9 @@ end, {
   },
   'folke/tokyonight.nvim',
   'webhooked/kanso.nvim',
+  {
+    'everviolet/nvim',
+    name = 'evergarden',
+    opts = { theme = { variant = 'winter' } },
+  },
 })

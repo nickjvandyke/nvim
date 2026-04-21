@@ -13,6 +13,9 @@ return {
           auto_close = true,
           -- layout = { layout = { position = 'right' } },
         },
+        grep = {
+          hidden = true,
+        },
       },
       -- layout = {
       --   -- More room for file path
@@ -50,11 +53,7 @@ return {
   --stylua: ignore
   keys = {
     { '<leader><leader>', function() Snacks.picker.smart { hidden = true } end, desc = 'Smart Find Files', },
-    { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-    { "<leader>/", function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep" },
-    { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-    { "<leader>e", function() Snacks.explorer.reveal() end, desc = "File Explorer" },
+    { "\\", function() Snacks.explorer.reveal() end, desc = "File Explorer" },
     -- Find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fc", function() Snacks.picker.files { cwd = vim.fn.stdpath('config') .. '/..', hidden = true } end, desc = "Find Config File" },
@@ -64,7 +63,7 @@ return {
     { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
     -- Grep
     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-    { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
+    -- { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
     { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
     -- Search
@@ -72,6 +71,7 @@ return {
     { '<leader>s/', function() Snacks.picker.search_history() end, desc = 'Search History' },
     { '<leader>sa', function() Snacks.picker.autocmds() end, desc = 'Autocmds' },
     { '<leader>sc', function() Snacks.picker.commands() end, desc = 'Commands' },
+    { "<leader>s:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { '<leader>sd', function() Snacks.picker.diagnostics() end, desc = 'Diagnostics' },
     { '<leader>sh', function() Snacks.picker.help() end, desc = 'Help Pages' },
     { '<leader>sH', function() Snacks.picker.highlights() end, desc = 'Highlights' },
@@ -96,6 +96,7 @@ return {
     { '<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List' },
     { '<leader>sC', function() Snacks.picker.colorschemes() end, desc = 'Colorschemes' },
     { '<leader>sp', function() Snacks.picker.projects() end, desc = 'Projects' },
+    { "<leader>sB", function() Snacks.picker.buffers() end, desc = "Buffers" },
     -- LSP
     { 'grd', function() Snacks.picker.lsp_definitions() end, desc = 'Goto Definition' },
     { 'grr', function() Snacks.picker.lsp_references() end, nowait = true, desc = 'Goto References' },

@@ -23,33 +23,65 @@ return {
     dependencies = {
       {
         -- `snacks.nvim` integration is recommended, but optional.
-        ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
         'folke/snacks.nvim',
         optional = true,
+        ---@module 'snacks'
+        ---@type snacks.Config
         opts = {
-          -- Enhances `ask()`.
-          input = {
-            -- enabled = false,
-          },
-          -- Enhances `select()`.
+          -- Enhances `ask()`
+          input = { enabled = true },
+          -- Enhances `select()`
           picker = {
+            enabled = true,
+            win = { input = { keys = { ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } } } } },
             actions = {
               opencode_send = function(...)
                 return require('opencode').snacks_picker_send(...)
               end,
             },
-            win = {
-              input = {
-                keys = {
-                  ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
-                },
-              },
-            },
           },
-          -- Enables the `snacks` provider.
-          terminal = {},
         },
       },
+      -- {
+      --   'saghen/blink.cmp',
+      --   optional = true,
+      --   ---@module 'blink.cmp'
+      --   ---@type blink.cmp.Config
+      --   opts = {
+      --     sources = {
+      --       per_filetype = {
+      --         opencode_ask = {
+      --           'lsp',
+      --           'buffer',
+      --         },
+      --       },
+      --       providers = { lsp = { fallbacks = {} } },
+      --     },
+      --     -- TODO: Possible to register LSP here? Or at least the omnifunc?
+      --     cmdline = {
+      --       enabled = true,
+      --       sources = {
+      --         'omni',
+      --       },
+      --     },
+      --   },
+      -- },
+      -- {
+      --   'nvim-lualine/lualine.nvim',
+      --   optional = true,
+      --   opts = {
+      --     sections = {
+      --       lualine_z = {
+      --         {
+      --           -- TODO: Why doesn't this merge correctly?
+      --           function()
+      --             return require('opencode').statusline()
+      --           end,
+      --         },
+      --       },
+      --     },
+      --   },
+      -- },
     },
     config = function()
       local cmd = 'opencode --port 54403'
@@ -67,19 +99,18 @@ return {
       ---@type opencode.Opts
       vim.g.opencode_opts = {
         -- stylua: ignore
-        server = {
-          -- port = 54403,
-          start = false,
-          -- start = function()
-          --   require('snacks.terminal').open(cmd, snacks_terminal_opts)
-          -- end,
-          stop = function()
-            require('snacks.terminal').get(cmd, snacks_terminal_opts):close()
-          end,
-          toggle = function()
-            require('snacks.terminal').toggle(cmd, snacks_terminal_opts)
-          end,
-        },
+        -- server = {
+        -- -- start = false,
+        -- start = function()
+        --   require('snacks.terminal').open(cmd, snacks_terminal_opts)
+        -- end,
+        -- stop = function()
+        --   require('snacks.terminal').get(cmd, snacks_terminal_opts):close()
+        -- end,
+        -- toggle = function()
+        --   require('snacks.terminal').toggle(cmd, snacks_terminal_opts)
+        -- end,
+        --  },
         prompts = {
           code_reviewer = { prompt = '@code-reviewer Review @buffer', submit = true },
         },
@@ -99,8 +130,10 @@ return {
         },
         lsp = {
           enabled = true,
-          hover = {
-            model = 'github-copilot/gpt-5-mini',
+          handlers = {
+            hover = {
+              model = 'github-copilot/gpt-4.1',
+            },
           },
         },
         permissions = {
