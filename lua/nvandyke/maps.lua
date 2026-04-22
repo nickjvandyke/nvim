@@ -57,3 +57,33 @@ vim.keymap.set('x', 'g??', function()
   )
   vim.api.nvim_input '<esc>'
 end, { desc = 'Google search selected text' })
+
+local function get_highest_severity(count)
+  local severity_order = {
+    vim.diagnostic.severity.ERROR,
+    vim.diagnostic.severity.WARN,
+    vim.diagnostic.severity.INFO,
+    vim.diagnostic.severity.HINT,
+  }
+  count = count or vim.diagnostic.count()
+
+  for _, s in ipairs(severity_order) do
+    if count[s] and count[s] > 0 then
+      return s
+    end
+  end
+
+  return nil
+end
+
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump { count = vim.v.count1, severity = get_highest_severity() }
+end, {
+  desc = 'Jump to the next diagnostic (prioritized)',
+})
+
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump { count = vim.v.count1, severity = get_highest_severity() }
+end, {
+  desc = 'Jump to the previous diagnostic (prioritized)',
+})
