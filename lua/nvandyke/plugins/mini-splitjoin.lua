@@ -2,6 +2,6 @@ return {
   'nvim-mini/mini.splitjoin',
   opts = {},
   keys = {
-    'gS'
+    { 'gS', desc = 'Split/Join' },
   },
 }

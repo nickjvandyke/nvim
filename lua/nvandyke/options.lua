@@ -71,7 +71,7 @@ vim.opt.fillchars = {
 vim.opt.inccommand = 'split'
 
 vim.opt.cursorline = true
-vim.opt.cursorlineopt = 'number'
+vim.opt.cursorlineopt = 'both'
 
 vim.opt.scrolloff = 7
 vim.opt.sidescrolloff = 3
@@ -102,7 +102,6 @@ vim.opt.guicursor:append 't:ver25'
 
 vim.opt.foldmethod = 'expr' -- Define folds using an expression
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' -- Use Treesitter for folding
-vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldtext = '' -- Syntax highlight first line of fold
 -- vim.api.nvim_create_autocmd('BufNew', {

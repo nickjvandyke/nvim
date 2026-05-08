@@ -11,10 +11,10 @@ return {
     edit = {
       autosave = true,
     },
-    highlight = {
-      -- Better highlighting
-      -- load_buffers = true,
-    },
+    -- highlight = {
+    --   -- Better highlighting
+    --   load_buffers = true,
+    -- },
     follow = {
       enable = true,
     },

@@ -53,7 +53,7 @@ return {
   --stylua: ignore
   keys = {
     { '<leader><leader>', function() Snacks.picker.smart { hidden = true } end, desc = 'Smart Find Files', },
-    { "\\", function() Snacks.explorer.reveal() end, desc = "File Explorer" },
+    { "<leader>e", function() Snacks.explorer.reveal() end, desc = "File Explorer" },
     -- Find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fc", function() Snacks.picker.files { cwd = vim.fn.stdpath('config') .. '/..', hidden = true } end, desc = "Find Config File" },
