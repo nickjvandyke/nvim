@@ -1,6 +1,7 @@
 return {
   {
     'zbirenbaum/copilot.lua',
+    enabled = false,
     event = 'InsertEnter',
     opts = {
       panel = {
@@ -84,35 +85,47 @@ return {
       -- },
     },
     config = function()
-      local cmd = 'opencode --port 54403'
+      vim.api.nvim_create_autocmd('CmdlineChanged', {
+        pattern = '@',
+        command = 'call wildtrigger()',
+      })
+
+      local opencode_cmd = 'opencode --port'
       ---@type snacks.terminal.Opts
       local snacks_terminal_opts = {
         win = {
           position = 'right',
           enter = false,
-          on_win = function(win)
-            -- Setup keymaps and cleanup for an arbitrary terminal
-            require('opencode.terminal').setup(win.win)
-          end,
         },
       }
+      vim.keymap.set({ 'n', 't' }, '<C-.>', function()
+        require('snacks.terminal').toggle(opencode_cmd, snacks_terminal_opts)
+      end, { desc = 'Toggle opencode' })
       ---@type opencode.Opts
       vim.g.opencode_opts = {
+        contexts = {
+          ['@grapple'] = function()
+            local is_available, grapple = pcall(require, 'grapple')
+            if not is_available then
+              return nil
+            end
+            local tags = grapple.tags()
+            if not tags or #tags == 0 then
+              return nil
+            end
+            local paths = {}
+            for _, tag in ipairs(tags) do
+              table.insert(paths, require('opencode.context').format(tag.path))
+            end
+            return table.concat(paths, ', ')
+          end,
+        },
         -- stylua: ignore
-        -- server = {
-        -- -- start = false,
-        -- start = function()
-        --   require('snacks.terminal').open(cmd, snacks_terminal_opts)
-        -- end,
-        -- stop = function()
-        --   require('snacks.terminal').get(cmd, snacks_terminal_opts):close()
-        -- end,
-        -- toggle = function()
-        --   require('snacks.terminal').toggle(cmd, snacks_terminal_opts)
-        -- end,
-        --  },
-        prompts = {
-          code_reviewer = { prompt = '@code-reviewer Review @buffer', submit = true },
+        server = {
+          url = "http://localhost:4096",
+          start = function()
+            require('snacks.terminal').open(opencode_cmd, snacks_terminal_opts)
+          end,
         },
         ask = {
           -- snacks = {
@@ -120,24 +133,22 @@ return {
           -- }
         },
         select = {
-          -- prompt = 'meow',
-          sections = {
-            commands = {
-              ['meowwww'] = 'MEOW MEOW',
-              -- ['session.list'] = 'List Sessions',
-            },
+          prompts = {
+            -- code_reviewer = '@code-reviewer Review @buffer',
+            -- append = 'meow space ',
+          },
+          commands = {
+            -- ['meowwww'] = 'MEOW MEOW',
+            -- ['session.list'] = 'List Sessions',
           },
         },
-        lsp = {
-          enabled = true,
-          handlers = {
-            hover = {
-              model = 'github-copilot/gpt-4.1',
+        events = {
+          permissions = {
+            enabled = true,
+            edits = {
+              enabled = true,
             },
           },
-        },
-        permissions = {
-          enabled = false,
         },
       }
 
@@ -153,15 +164,13 @@ return {
 
       -- Recommended/example keymaps.
       vim.keymap.set({ 'n', 'x' }, '<C-a>', function()
-        require('opencode').ask('@this: ', { submit = true })
-      end, { desc = 'Ask opencode' })
+        require('opencode').ask '@this: '
+      end, { desc = 'Ask opencode…' })
+
       vim.keymap.set({ 'n', 'x' }, '<C-x>', function()
         require('opencode').select()
       end, { desc = 'Execute opencode action…' })
 
-      vim.keymap.set({ 'n', 't' }, '<C-.>', function()
-        require('opencode').toggle()
-      end, { desc = 'Toggle opencode' })
       vim.keymap.set({ 'n', 't' }, '<S-C-u>', function()
         require('opencode').command 'session.half.page.up'
       end, { desc = 'opencode half page up' })
@@ -172,6 +181,20 @@ return {
       -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
       vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })
       vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement', noremap = true })
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = { 'OpencodeEvent:tui.command.execute' },
+        callback = function(args)
+          ---@type opencode.server.Event
+          local event = args.data.event
+          if event.properties.command == 'prompt.submit' then
+            local win = require('snacks.terminal').get(opencode_cmd, { create = false })
+            if win then
+              win:show()
+            end
+          end
+        end,
+      })
     end,
   },
 }

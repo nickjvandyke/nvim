@@ -36,6 +36,13 @@ return {
         buffer = {
           -- min_keyword_length = 3,
           score_offset = -3,
+          opts = {
+            get_bufnrs = function()
+              return vim.tbl_filter(function(bufnr)
+                return vim.bo[bufnr].buftype == ''
+              end, vim.api.nvim_list_bufs())
+            end,
+          },
         },
       },
     },

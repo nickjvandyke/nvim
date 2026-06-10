@@ -13,13 +13,13 @@ vim.api.nvim_create_autocmd('CursorHold', {
   end,
 })
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'markdown',
-  desc = 'Set wrap for markdown files',
-  callback = function()
-    vim.wo.wrap = true
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'markdown',
+--   desc = 'Set wrap for markdown files',
+--   callback = function()
+--     vim.wo.wrap = true
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   desc = 'Restore cursor to file position in previous editing session',

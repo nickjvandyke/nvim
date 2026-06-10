@@ -48,10 +48,10 @@ vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement number under cursor', nore
 vim.keymap.set('n', '<C-q>', '<cmd>qall<cr>', { desc = 'Save + Quit Neovim', silent = true })
 
 -- g?: Web search
-vim.keymap.set('n', 'g??', function()
+vim.keymap.set('n', 'g?', function()
   vim.ui.open(('https://google.com/search?q=%s'):format(vim.fn.expand '<cword>'))
 end, { desc = 'Google search word under cursor' })
-vim.keymap.set('x', 'g??', function()
+vim.keymap.set('x', 'g?', function()
   vim.ui.open(
     ('https://google.com/search?q=%s'):format(vim.trim(table.concat(vim.fn.getregion(vim.fn.getpos '.', vim.fn.getpos 'v', { type = vim.fn.mode() }), ' ')))
   )
@@ -87,3 +87,5 @@ vim.keymap.set('n', '[d', function()
 end, {
   desc = 'Jump to the previous diagnostic (prioritized)',
 })
+
+vim.keymap.set('n', '<Tab>', 'za', { desc = 'Toggle fold under cursor' })
