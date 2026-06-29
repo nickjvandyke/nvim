@@ -22,74 +22,41 @@ return {
     -- version = "*",
     dir = '~/dev/opencode.nvim',
     dependencies = {
+      -- {
+      --   'nvim-mini/mini.input',
+      --   opts = {},
+      -- },
       {
-        -- `snacks.nvim` integration is recommended, but optional.
         'folke/snacks.nvim',
         optional = true,
-        ---@module 'snacks'
-        ---@type snacks.Config
         opts = {
-          -- Enhances `ask()`
-          input = { enabled = true },
-          -- Enhances `select()`
+          input = {
+            enabled = true, -- Enhances `ask()`
+          },
           picker = {
-            enabled = true,
-            win = { input = { keys = { ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } } } } },
+            enabled = true, -- Enhances `select()`
             actions = {
-              opencode_send = function(...)
-                return require('opencode').snacks_picker_send(...)
+              ---@param picker snacks.Picker
+              opencode_send = function(picker)
+                local items = vim.tbl_map(function(item) ---@param item snacks.picker.Item
+                  return item.file and require('opencode').format { path = item.file, from = item.pos, to = item.end_pos } or item.text
+                end, picker:selected { fallback = true })
+
+                require('opencode').prompt(table.concat(items, ', ') .. ' ')
               end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
+                },
+              },
             },
           },
         },
       },
-      -- {
-      --   'saghen/blink.cmp',
-      --   optional = true,
-      --   ---@module 'blink.cmp'
-      --   ---@type blink.cmp.Config
-      --   opts = {
-      --     sources = {
-      --       per_filetype = {
-      --         opencode_ask = {
-      --           'lsp',
-      --           'buffer',
-      --         },
-      --       },
-      --       providers = { lsp = { fallbacks = {} } },
-      --     },
-      --     -- TODO: Possible to register LSP here? Or at least the omnifunc?
-      --     cmdline = {
-      --       enabled = true,
-      --       sources = {
-      --         'omni',
-      --       },
-      --     },
-      --   },
-      -- },
-      -- {
-      --   'nvim-lualine/lualine.nvim',
-      --   optional = true,
-      --   opts = {
-      --     sections = {
-      --       lualine_z = {
-      --         {
-      --           -- TODO: Why doesn't this merge correctly?
-      --           function()
-      --             return require('opencode').statusline()
-      --           end,
-      --         },
-      --       },
-      --     },
-      --   },
-      -- },
     },
     config = function()
-      vim.api.nvim_create_autocmd('CmdlineChanged', {
-        pattern = '@',
-        command = 'call wildtrigger()',
-      })
-
       local opencode_cmd = 'opencode --port'
       ---@type snacks.terminal.Opts
       local snacks_terminal_opts = {
@@ -115,17 +82,18 @@ return {
             end
             local paths = {}
             for _, tag in ipairs(tags) do
-              table.insert(paths, require('opencode.context').format(tag.path))
+              table.insert(paths, require('opencode.context').format { path = tag.path })
             end
             return table.concat(paths, ', ')
           end,
         },
         -- stylua: ignore
         server = {
-          url = "http://localhost:4096",
-          start = function()
-            require('snacks.terminal').open(opencode_cmd, snacks_terminal_opts)
-          end,
+          -- url = "http://localhost:4096",
+          -- start = function()
+          --   require('snacks.terminal').open(opencode_cmd, snacks_terminal_opts)
+          -- end,
+          -- start = false
         },
         ask = {
           -- snacks = {

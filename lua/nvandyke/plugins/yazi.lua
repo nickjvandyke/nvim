@@ -2,7 +2,6 @@ return {
   'mikavilpas/yazi.nvim',
   cmd = 'Yazi',
   keys = {
-    -- 👇 in this section, choose your own keymappings!
     {
       '\\',
       '<cmd>Yazi<cr>',

@@ -88,4 +88,4 @@ end, {
   desc = 'Jump to the previous diagnostic (prioritized)',
 })
 
-vim.keymap.set('n', '<Tab>', 'za', { desc = 'Toggle fold under cursor' })
+-- vim.keymap.set('n', '<Tab>', 'za', { desc = 'Toggle fold under cursor' })
