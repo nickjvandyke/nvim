@@ -6,7 +6,6 @@ return {
       -- Atm it doesn't support merging with lsp/<server>.lua
 
       -- https://writewithharper.com/docs/integrations/neovim
-      -- TODO: How to add words to dictionary? "Thanh Thanh"
       vim.lsp.config('harper_ls', {
         filetypes = { 'markdown' },
         settings = {
@@ -17,20 +16,6 @@ return {
             },
           },
         },
-      })
-
-      -- vim.lsp.config('tsgo', {
-      --   settings = {
-      --     cmd = { 'tsgo', '--singleThreaded' },
-      --   },
-      -- })
-
-      -- Add --cache flag
-      -- TODO: Verify it works. I don't see a .eslintcache file being created.
-      -- WARNING: `eslint` needs to exist in `node_modules` or globally installed.
-      -- Doesn't seem to cooperate with yarn v4 cache.
-      vim.lsp.config('eslint', {
-        cmd = { 'vscode-eslint-language-server', '--stdio', '--cache' },
       })
 
       vim.lsp.config('emmylua_ls', {
@@ -61,25 +46,15 @@ return {
         'graphql',
         'terraformls',
         'intelephense',
-        'cssls',
-        'vue_ls',
         'basedpyright',
         'yamlls',
         'circleci',
         -- 'harper_ls',
-        -- 'eslint',
         'tsgo',
+        'eslint',
+        'cssls',
+        'vue_ls',
       }
-
-      -- vim.api.nvim_create_autocmd('BufWritePre', {
-      --   pattern = { '*.js', '*.ts', '*.jsx', '*.tsx' },
-      --   command = 'LspEslintFixAll',
-      -- })
-
-      -- FIX:
-      -- vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-      --   silent = true,
-      -- })
 
       vim.keymap.set('n', 'grn', function()
         vim.lsp.buf.rename()
