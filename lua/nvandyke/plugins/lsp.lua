@@ -1,9 +1,6 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = {
-      'mason-org/mason.nvim',
-    },
     config = function()
       -- Extend lspconfig defaults
       -- Atm it doesn't support merging with lsp/<server>.lua
@@ -143,11 +140,6 @@ return {
       }
       vim.diagnostic.config { virtual_text = false, virtual_lines = false } -- Disable Neovim's default virtual text diagnostics
     end,
-  },
-  {
-    'mason-org/mason.nvim',
-    cmd = 'Mason',
-    opts = {},
   },
   {
     'folke/lazydev.nvim',
